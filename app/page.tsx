@@ -1,26 +1,29 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 import { PatientForm } from "@/components/forms/PatientForm";
 import { PasskeyModal } from "@/components/PasskeyModal";
+import { isLoggedIn } from "@/lib/auth";
 
 const Home = ({ searchParams }: SearchParamProps) => {
   const isAdmin = searchParams?.admin === "true";
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
-    if (router.pathname === "/" && isLoggedIn()) {
+    if (pathname === "/" && isLoggedIn()) {
       router.push("/dashboard");
     } else if (
       !isLoggedIn() &&
-      router.pathname !== "/login" &&
-      router.pathname !== "/register"
+      pathname !== "/login" &&
+      pathname !== "/register"
     ) {
       router.push("/login");
     }
-  }, [router]);
+  }, [pathname]);
 
   return (
     <div className="flex h-screen max-h-screen">
