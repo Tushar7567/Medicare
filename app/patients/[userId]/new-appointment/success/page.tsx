@@ -63,15 +63,19 @@ const RequestSuccess = async ({
               width={24}
               alt="calendar"
             />
-            <p> {formatDateTime(appointment.schedule).dateTime}</p>
+            <p> {formatDateTime(appointment.scheduleDate).dateTime}</p>
           </div>
         </section>
-
-        <Button variant="outline" className="shad-primary-btn" asChild>
-          <Link href={`/patients/${userId}/new-appointment`}>
-            New Appointment
-          </Link>
-        </Button>
+        <section>
+          <Button variant="outline" className="shad-primary-btn" asChild>
+            <Link href={`/patients/${userId}/new-appointment`}>
+              New Appointment
+            </Link>
+          </Button>
+          <Button variant="outline" className="shad-primary-btn ml-3" asChild>
+            <Link href={`/`}>Back</Link>
+          </Button>
+        </section>
 
         <p className="copyright">© 2024 CarePluse</p>
       </div>

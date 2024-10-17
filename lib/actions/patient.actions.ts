@@ -15,14 +15,14 @@ import {
 import { parseStringify } from "../utils";
 
 // CREATE APPWRITE USER
-export const createUser = async (user: CreateUserParams) => {
+export const createUser = async (user: CreateUser) => {
   try {
     // Create new user -> https://appwrite.io/docs/references/1.5.x/server-nodejs/users#create
     const newuser = await users.create(
       ID.unique(),
       user.email,
       user.phone,
-      undefined,
+      user.password,
       user.name
     );
 
@@ -72,7 +72,11 @@ export const registerPatient = async ({
 
       file = await storage.createFile(BUCKET_ID!, ID.unique(), inputFile);
     }
-
+    console.log(
+      file?.$id
+        ? `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file.$id}/view??project=${PROJECT_ID}`
+        : null
+    );
     // Create new patient document -> https://appwrite.io/docs/references/cloud/server-nodejs/databases#createDocument
     const newPatient = await databases.createDocument(
       DATABASE_ID!,

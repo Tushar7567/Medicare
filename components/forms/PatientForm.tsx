@@ -13,10 +13,12 @@ import { UserFormValidation } from "@/lib/validation";
 import "react-phone-number-input/style.css";
 import CustomFormField, { FormFieldType } from "../CustomFormField";
 import SubmitButton from "../SubmitButton";
+import { useToast } from "../Toaster/Toasterprovider";
 
 export const PatientForm = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const { addToast } = useToast();
 
   const form = useForm<z.infer<typeof UserFormValidation>>({
     resolver: zodResolver(UserFormValidation),
@@ -24,6 +26,7 @@ export const PatientForm = () => {
       name: "",
       email: "",
       phone: "",
+      password: "",
     },
   });
 
@@ -35,15 +38,26 @@ export const PatientForm = () => {
         name: values.name,
         email: values.email,
         phone: values.phone,
+        password: values.password,
       };
 
       const newUser = await createUser(user);
 
-      if (newUser) {
-        router.push(`/patients/${newUser.$id}/register`);
+      if (newUser && newUser?.$id) {
+        addToast({
+          loading: false,
+          message: "User successfully register",
+          type: "success",
+        });
+        router.push(`/patients/${newUser?.$id}/register`);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      addToast({
+        loading: false,
+        message: error?.response?.message || "Something went wrong",
+        type: "error",
+      });
+      console.log("herrrrrrrrrrrrrr", error);
     }
 
     setIsLoading(false);
@@ -75,6 +89,14 @@ export const PatientForm = () => {
           placeholder="johndoe@gmail.com"
           iconSrc="/assets/icons/email.svg"
           iconAlt="email"
+        />
+
+        <CustomFormField
+          fieldType={FormFieldType.PASSWORD}
+          control={form.control}
+          name="password"
+          label="Password"
+          placeholder="Password"
         />
 
         <CustomFormField

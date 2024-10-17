@@ -25,6 +25,7 @@ export enum FormFieldType {
   DATE_PICKER = "datePicker",
   SELECT = "select",
   SKELETON = "skeleton",
+  PASSWORD = "password",
 }
 
 interface CustomProps {
@@ -144,6 +145,17 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
       );
     case FormFieldType.SKELETON:
       return props.renderSkeleton ? props.renderSkeleton(field) : null;
+    case FormFieldType.PASSWORD:
+      return (
+        <FormControl>
+          <Input
+            placeholder={props.placeholder}
+            type={props.fieldType}
+            {...field}
+            className="shad-input border-0"
+          />
+        </FormControl>
+      );
     default:
       return null;
   }

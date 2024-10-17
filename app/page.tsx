@@ -1,11 +1,26 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 import { PatientForm } from "@/components/forms/PatientForm";
 import { PasskeyModal } from "@/components/PasskeyModal";
 
 const Home = ({ searchParams }: SearchParamProps) => {
   const isAdmin = searchParams?.admin === "true";
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router.pathname === "/" && isLoggedIn()) {
+      router.push("/dashboard");
+    } else if (
+      !isLoggedIn() &&
+      router.pathname !== "/login" &&
+      router.pathname !== "/register"
+    ) {
+      router.push("/login");
+    }
+  }, [router]);
 
   return (
     <div className="flex h-screen max-h-screen">

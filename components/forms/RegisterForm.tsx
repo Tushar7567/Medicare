@@ -25,10 +25,12 @@ import "react-phone-number-input/style.css";
 import CustomFormField, { FormFieldType } from "../CustomFormField";
 import { FileUploader } from "../FileUploader";
 import SubmitButton from "../SubmitButton";
+import { useToast } from "../Toaster/Toasterprovider";
 
 const RegisterForm = ({ user }: { user: User }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const { addToast } = useToast();
 
   const form = useForm<z.infer<typeof PatientFormValidation>>({
     resolver: zodResolver(PatientFormValidation),
@@ -84,11 +86,16 @@ const RegisterForm = ({ user }: { user: User }) => {
           : undefined,
         privacyConsent: values.privacyConsent,
       };
-
+      console.log(patient);
       const newPatient = await registerPatient(patient);
 
       if (newPatient) {
-        router.push(`/patients/${user.$id}/new-appointment`);
+        addToast({
+          loading: false,
+          message: "User Registration successfull",
+          type: "success",
+        });
+        router.push(`/patients/${user?.$id}/new-appointment`);
       }
     } catch (error) {
       console.log(error);

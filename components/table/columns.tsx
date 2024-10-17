@@ -38,13 +38,13 @@ export const columns: ColumnDef<Appointment>[] = [
     },
   },
   {
-    accessorKey: "schedule",
+    accessorKey: "scheduleDate",
     header: "Appointment",
     cell: ({ row }) => {
       const appointment = row.original;
       return (
         <p className="text-14-regular min-w-[100px]">
-          {formatDateTime(appointment.schedule).dateTime}
+          {formatDateTime(appointment.scheduleDate).dateTime}
         </p>
       );
     },

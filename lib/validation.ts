@@ -9,6 +9,9 @@ export const UserFormValidation = z.object({
   phone: z
     .string()
     .refine((phone) => /^\+\d{10,15}$/.test(phone), "Invalid phone number"),
+  password: z
+    .string()
+    .min(6, "Password is required and must be more than 6 charaters"),
 });
 
 export const PatientFormValidation = z.object({
