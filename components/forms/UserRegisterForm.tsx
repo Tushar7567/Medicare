@@ -15,7 +15,7 @@ import CustomFormField, { FormFieldType } from "../CustomFormField";
 import SubmitButton from "../SubmitButton";
 import { useToast } from "../Toaster/Toasterprovider";
 
-export const PatientForm = () => {
+export const UserRegisterForm = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const { addToast } = useToast();
@@ -42,7 +42,7 @@ export const PatientForm = () => {
       };
 
       const newUser = await createUser(user);
-
+      console.log(newUser);
       if (newUser && newUser?.$id) {
         addToast({
           loading: false,

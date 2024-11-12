@@ -13,6 +13,12 @@ export const UserFormValidation = z.object({
     .string()
     .min(6, "Password is required and must be more than 6 charaters"),
 });
+export const LoginValidation = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z
+    .string()
+    .min(6, "Password is required and must be more than 6 charaters"),
+});
 
 export const PatientFormValidation = z.object({
   name: z

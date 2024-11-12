@@ -1,6 +1,6 @@
 "use server";
 
-import { ID, InputFile, Query } from "node-appwrite";
+import { Account, Client, ID, InputFile, Query } from "node-appwrite";
 
 import {
   BUCKET_ID,
@@ -13,6 +13,36 @@ import {
   users,
 } from "../appwrite.config";
 import { parseStringify } from "../utils";
+
+export const login = async ({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) => {
+  try {
+    const client = new Client().setProject(`${PROJECT_ID}`);
+
+    const account = new Account(client);
+
+    const promise = account.createEmailPasswordSession(email, password);
+    let result;
+    promise.then(
+      function (response: any) {
+        console.log(response); // Success
+        result = response;
+      },
+      function (error) {
+        console.log(error); // Failure
+        result = error;
+      }
+    );
+    return result;
+  } catch (error: any) {
+    return error;
+  }
+};
 
 // CREATE APPWRITE USER
 export const createUser = async (user: CreateUser) => {
